@@ -21,7 +21,7 @@ class HttpClient implements HttpClientInterface
      * @var array
      */
     protected $options = array(
-        'user_agent'  => 'php-gitlab-api (http://github.com/m4tthumphrey/php-gitlab-api)',
+        'user_agent'  => 'php-gitlab-api (http://github.com/fsicurezza/php-gitlab-api)',
         'timeout'     => 10,
     );
 

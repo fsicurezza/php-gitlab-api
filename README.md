@@ -17,7 +17,7 @@ $ sudo mv composer.phar /usr/local/bin/composer
 Add the following to your require block in composer.json config. Note: be careful when using the `dev-master` tag as this may have unexpected results depending on your version of Gitlab. See the Versioning section below for more information.
 
 ```
-"m4tthumphrey/php-gitlab-api": "dev-master"
+"fsicurezza/php-gitlab-api": "dev-master"
 ```
 
 Include Composer's autoloader:
