@@ -57,6 +57,31 @@ class Projects extends AbstractApi
     }
 
     /**
+     * Get a list of projects which are starred by the authenticated user.
+     *
+     * @param int $page             Page number
+     * @param int $per_page         Number of starred projects per page
+     * @param null $archived        if passed, limit by archived status
+     * @param null $visibility      if passed, limit by visibility public, internal, private
+     * @param string $order_by      Return requests ordered by id, name, path, created_at, updated_at or last_activity_at fields. Default is created_at
+     * @param string $sort          Return requests sorted in asc or desc order. Default is desc
+     * @param null $search          Return list of authorized projects according to a search criteria
+     * @return mixed
+     */
+    public function starred($page = 1, $per_page = self::PER_PAGE, $archived = null, $visibility = null, $order_by = self::ORDER_BY, $sort = self::SORT, $search = null)
+    {
+        return $this->get('projects/starred', array(
+            'page' => $page,
+            'per_page' => $per_page,
+            'archived' => $archived,
+            'visibility' => $visibility,
+            'order_by' => $order_by,
+            'sort' => $sort,
+            'search' => $search
+        ));
+    }
+
+    /**
      * @param string $query
      * @param int $page
      * @param int $per_page
@@ -417,4 +442,20 @@ class Projects extends AbstractApi
     {
         return $this->delete($this->getProjectPath($project_id, 'services/'.$this->encodePath($service_name)));
     }
+
+    /**
+     * @param $project_id
+     * @param $sha
+     * @param $state            The state of the status. Can be one of the following: pending, running, success, failed, canceled
+     * @param array $params     name or context (string) = The label to differentiate this status from the status of other systems. Default value is default
+     *                          target_url (string) = The target URL to associate with this status
+     *                          description (string) = 	The short description of the status
+     * @return mixed
+     */
+    public function createStatus($project_id, $sha, $state, array $params = array())
+    {
+        $params['state'] = $state;
+        return $this->post($this->getProjectPath($project_id, 'statuses/'.$this->encodePath($sha)), $params);
+    }
+
 }

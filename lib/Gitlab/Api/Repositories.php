@@ -134,20 +134,46 @@ class Repositories extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha)));
     }
 
-    /**
-     * @param int $project_id
-     * @param string $sha
-     * @param int $page
-     * @param int $per_page
-     * @return mixed
-     */
-    public function commitComments($project_id, $sha, $page = 0, $per_page = self::PER_PAGE)
-    {
-        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/comments'), array(
-            'page' => $page,
-            'per_page' => $per_page
-        ));
-    }
+	/**
+	 * Get the statuses of a commit in a project.
+	 *
+	 * @since GitLab 8.1
+	 *
+	 * @param $project_id
+	 * @param $sha
+	 * @param int $page
+	 * @param int $per_page
+	 * @param null $ref_name The name of a repository branch or tag or, if not given, the default branch
+	 * @param null $stage Filter by build stage, e.g., test
+	 * @param null $name Filter by job name, e.g., bundler:audit
+	 * @param bool $all Return all statuses, not only the latest ones
+	 * @return mixed
+	 */
+	public function commitStatuses( $project_id, $sha, $page = 0, $per_page = self::PER_PAGE, $ref_name = null, $stage = null, $name = null, $all = false ) {
+		return $this->get( $this->getProjectPath( $project_id, 'repository/commits/' . $this->encodePath( $sha ) . '/statuses' ), array(
+			'page'     => $page,
+			'per_page' => $per_page,
+			'ref_name' => $ref_name,
+			'stage'    => $stage,
+			'name'     => $name,
+			'all'      => $all
+		) );
+	}
+
+	/**
+	 * @param int $project_id
+	 * @param string $sha
+	 * @param int $page
+	 * @param int $per_page
+	 * @return mixed
+	 */
+	public function commitComments($project_id, $sha, $page = 0, $per_page = self::PER_PAGE)
+	{
+		return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/comments'), array(
+			'page' => $page,
+			'per_page' => $per_page
+		));
+	}
 
     /**
      * @param int $project_id
